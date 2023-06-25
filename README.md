@@ -1,10 +1,19 @@
-# ais
+Simple web service to manage articles using **MariaDB** for database and **Redis** for cache
 
-Simple web service for manage articles
+Import `postman_collection.json` to get following available endpoints in your Postman
+
+| Method | Route | Description |
+| -- | -- | -- |
+| GET | /articles | List articles |
+| GET | /articles/:id | View article |
+| POST | /articles | Post new article |
+| POST | /articles/update | Update article |
+| POST | /articles/delete | Delete article |
+
 
 ## Setup
 
-1. To setup first you need to run docker compose on project root directory to build container for database (MariaDB) and cache (Redis).
+1. To setup first you need to run docker compose on project root directory to build container for **database** and **cache**.
 
 ```
 docker compose up -d
@@ -28,4 +37,19 @@ cp .env.example .env
 
 ```
 go run main.go
+```
+
+## Testing
+
+1. To do test, you need copy .env.test.example and change some of the variables according to your local setup. Make sure app port not conflicted with other services.
+
+```
+cp .env.test.example .env.test
+```
+
+2. Then go to `handler` directory and run Go test
+
+```
+cd handler
+go test -v
 ```
