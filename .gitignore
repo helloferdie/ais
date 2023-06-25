@@ -17,3 +17,5 @@
 .env
 .DS_Store
 /log/*
+/docker/mariadb/data/*
+/docker/mariadb/log/*
