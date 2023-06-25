@@ -2,15 +2,15 @@ module ais
 
 go 1.20
 
-// replace github.com/helloferdie/golib v0.1.0 => /Users/ferdie/Works/golib
-
 require (
-	github.com/helloferdie/golib v0.1.1
+	github.com/helloferdie/golib v0.1.3
 	github.com/labstack/echo/v4 v4.10.2
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -20,8 +20,10 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/redis/go-redis/v9 v9.0.5 // indirect
 	golang.org/x/time v0.3.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (

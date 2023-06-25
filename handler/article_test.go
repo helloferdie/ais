@@ -3,7 +3,6 @@ package handler
 import (
 	"ais/lib/libresponse"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -81,14 +80,13 @@ func testVerifyArticleResponse(t *testing.T, rec *httptest.ResponseRecorder, exp
 	b, _ := json.Marshal(resp.Data)
 	err = json.Unmarshal(b, &respData)
 	if err != nil {
-		fmt.Println(respData)
 		t.Error("Not valid mock response format")
 		t.FailNow()
 	}
 
 	respMapData := resp.Data.(map[string]interface{})
-	for k, v := range mockArticle {
-		assert.Equal(t, v, respMapData[k], "Key :"+k)
+	for k, v := range expectedData {
+		assert.EqualValues(t, v, respMapData[k], "Key :"+k)
 	}
 	if t.Failed() {
 		t.Error("Mock data does not match with response data")
@@ -223,4 +221,74 @@ func TestArticleList(t *testing.T) {
 		}
 		assert.GreaterOrEqual(t, tsArticle0, tsArticle1)
 	}
+}
+
+func TestArticleUpdate(t *testing.T) {
+	// Setup
+	insertedID := testArticleCreate(t)
+
+	e := echo.New()
+	mockUpdate := map[string]interface{}{
+		"id":     insertedID,
+		"title":  "New title",
+		"author": "Gopher",
+		"body":   "Hello world",
+	}
+	upJSON, _ := json.Marshal(mockUpdate)
+	upReq := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(string(upJSON)))
+	upReq.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	upRec := httptest.NewRecorder()
+	upCtx := e.NewContext(upReq, upRec)
+
+	// Test
+	require.NoError(t, ArticleUpdate(upCtx))
+
+	// Verify changes updated
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.SetPath("/:id")
+	c.SetParamNames("id")
+	c.SetParamValues(strconv.FormatInt(insertedID, 10))
+	require.NoError(t, ArticleView(c))
+	testVerifyArticleResponse(t, rec, mockUpdate)
+}
+
+func TestArticleDelete(t *testing.T) {
+	// Setup
+	insertedID := testArticleCreate(t)
+
+	// Instance for view
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.SetPath("/:id")
+	c.SetParamNames("id")
+	c.SetParamValues(strconv.FormatInt(insertedID, 10))
+
+	// Instance for delete
+	delJSON, _ := json.Marshal(map[string]interface{}{
+		"id": insertedID,
+	})
+	delReq := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(string(delJSON)))
+	delReq.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	delRec := httptest.NewRecorder()
+	delCtx := e.NewContext(delReq, delRec)
+
+	// Test
+	require.NoError(t, ArticleView(c))
+
+	// Do delete
+	require.NoError(t, ArticleDelete(delCtx))
+	require.Equal(t, http.StatusOK, delRec.Code)
+
+	// Test view again, expected 404
+	rec = httptest.NewRecorder()
+	c = e.NewContext(req, rec)
+	c.SetPath("/:id")
+	c.SetParamNames("id")
+	c.SetParamValues(strconv.FormatInt(insertedID, 10))
+	require.NoError(t, ArticleView(c))
+	require.Equal(t, http.StatusNotFound, rec.Code)
 }
