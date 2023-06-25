@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "3ef966f7-a252-40d5-8435-01b3111b9547",
+		"name": "AIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6838212"
+	},
+	"item": [
+		{
+			"name": "List Articles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Timezone",
+						"value": "Asia/Jakarta",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:1000/articles?page=1&items_per_page=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1000",
+					"path": [
+						"articles"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "items_per_page",
+							"value": "100"
+						},
+						{
+							"key": "author",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "query",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "View Article",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Timezone",
+						"value": "Asia/Jakarta",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:1000/articles/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1000",
+					"path": [
+						"articles",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Article",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Timezone",
+						"value": "Asia/Jakarta",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"Bahamut\",\n    \"title\": \"A Peanuts Collection\",\n    \"body\": \"In this second book of the series, the gang's all here and getting into classic Peanuts hijinks. Whether it's the dynamic duo of Snoopy and Woodstock.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1000/articles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1000",
+					"path": [
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Article",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Timezone",
+						"value": "Asia/Jakarta",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"author\": \"Charlie\",\n    \"title\": \"A Peanuts Collection\",\n    \"body\": \"In this second book of the series, the gang's all here and getting into classic Peanuts hijinks. Whether it's the dynamic duo of Snoopy and Woodstock.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1000/articles/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1000",
+					"path": [
+						"articles",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Article",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Timezone",
+						"value": "Asia/Jakarta",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1000/articles/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1000",
+					"path": [
+						"articles",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
