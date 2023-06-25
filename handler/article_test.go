@@ -175,7 +175,7 @@ func TestArticleList(t *testing.T) {
 		"author": "ImMockAuthor",
 	}
 	resp := testArticleList(t, params)
-	assert.Equal(t, resp.TotalItems, int64(0), params) // Test for no data
+	assert.Equal(t, int64(0), resp.TotalItems, params) // Test for no data
 
 	// Search articles from author "Reilly"
 	testArticleCreate(t)
