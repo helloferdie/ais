@@ -19,3 +19,4 @@
 /log/*
 /docker/mariadb/data/*
 /docker/mariadb/log/*
+docker/redis/data/*
